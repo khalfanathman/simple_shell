@@ -4,8 +4,7 @@
 
 *For this project, we expect you to look at these concepts:*
 
--   [Everything you need to know to start coding your own
-    > shell](https://intranet.alxswe.com/concepts/64)
+-   [Everything you need to know to start coding your own shell](https://intranet.alxswe.com/concepts/64)
 
 -   [Approaching a Project](https://intranet.alxswe.com/concepts/350)
 
@@ -22,17 +21,13 @@ Barbier](https://intranet.alxswe.com/rltoken/-ezXgcyfhc8qU1DeUInLUA)*
 
 **Read or watch**:
 
--   [Unix
-    > shell](https://intranet.alxswe.com/rltoken/f0YU9TAhniMXWlSXtb64Yw)
+-   [Unix shell](https://intranet.alxswe.com/rltoken/f0YU9TAhniMXWlSXtb64Yw)
 
--   [Thompson
-    > shell](https://intranet.alxswe.com/rltoken/7LJOp2qP7qHUcsOK2-F3qA)
+-   [Thompson shell](https://intranet.alxswe.com/rltoken/7LJOp2qP7qHUcsOK2-F3qA)
 
--   [Ken
-    > Thompson](https://intranet.alxswe.com/rltoken/wTSu31ZP1f7fFTJFgRQC7w)
+-   [Ken Thompson](https://intranet.alxswe.com/rltoken/wTSu31ZP1f7fFTJFgRQC7w)
 
--   **Everything you need to know to start coding your own
-    > shell** concept page
+-   **Everything you need to know to start coding your own shell** concept page
 
 **man or help**:
 
@@ -126,29 +121,21 @@ risk a 0% score. Add your partner as a collaborator. **
     > program must be equivalent to your argv[0] (See below)
 
 Example of error with sh:
-
+```
 $ echo "qwerty" | /bin/sh
-
 /bin/sh: 1: qwerty: not found
-
 $ echo "qwerty" | /bin/../bin/sh
-
 /bin/../bin/sh: 1: qwerty: not found
-
 $
-
+```
 Same error with your program hsh:
-
+```
 $ echo "qwerty" | ./hsh
-
 ./hsh: 1: qwerty: not found
-
 $ echo "qwerty"| ./././hsh
-
 ./././hsh: 1: qwerty: not found
-
 $
-
+```
 ### **List of allowed functions and system calls**
 
 -   access (man 2 access)
