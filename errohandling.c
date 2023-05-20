@@ -55,4 +55,5 @@ void not_found(char *prog, char *comd, int pid_no, char *msg)
 	_puts(": ");
 	_puts(msg);
 	_puts("\n");
+	free(str);
 }

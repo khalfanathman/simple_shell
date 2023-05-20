@@ -23,7 +23,9 @@ void rev_str(char **str)
 		i++;
 	}
 
-	*str = tem;
+	*str = copy_str(*str,tem);
+	free(str1);
+	free(tem);
 }
 /**
  * concat_str - concatenates the src to dest
