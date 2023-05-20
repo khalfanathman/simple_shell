@@ -1,6 +1,9 @@
 #include <unistd.h>
 #include "main.h"
+#include <stdlib.h>
 
+
+/* printf("string %s",str2) */
 /**
  * int_To_Str - Converts an integer to a string.
  * @str: Pointer to the destination string.
@@ -28,8 +31,6 @@ void int_To_Str(char *str, int num)
 	}
 
 	str[i] = '\0';
-
-	rev_str(str);
 }
 
 /**
@@ -42,9 +43,10 @@ void int_To_Str(char *str, int num)
 
 void not_found(char *prog, char *comd, int pid_no, char *msg)
 {
-	char str[4];
+	char *str = malloc(sizeof(char) * 4);
 
 	int_To_Str(str, pid_no);
+	rev_str(&str);
 	_puts(prog);
 	_puts(": ");
 	_puts(comd);

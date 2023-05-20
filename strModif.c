@@ -5,48 +5,25 @@
 
 /**
  * rev_str - Reverse the str of string
- * @str: The input string to be reversed
+ * @str: The pointer input string to be reversed
  *
  * Return: does not return;
  */
-void rev_str(char *str)
+void rev_str(char **str)
 {
-	int start = 0;
-	int end = 0;
-	char temp;
+	int len = _strlen(*str), i = 0;
+	char *str1 = malloc(sizeof(char) * len);
+	char *tem = malloc(sizeof(char) * len);
 
-	while (str[end] != '\0')
+	str1 = copy_str(str1, *str);
+
+	while (i < len)
 	{
-		end++;
+		tem[i] = str1[len - i - 1];
+		i++;
 	}
 
-	end--;
-
-	while (start < end)
-	{
-		switch (str[start])
-		{
-			case '\0':
-				break;
-
-			default:
-				switch (str[end])
-				{
-					case '\0':
-						break;
-
-					default:
-						temp = str[start];
-						str[start] = str[end];
-						str[end] = temp;
-						start++;
-						end--;
-						break;
-				}
-
-				break;
-		}
-	}
+	*str = tem;
 }
 /**
  * concat_str - concatenates the src to dest
@@ -58,7 +35,6 @@ char *concat_str(char **dest, char *src)
 {
 	size_t total_len = _strlen(*dest) + _strlen(src) + 1;
 	char *newArr = malloc(sizeof(char) * total_len);
-
 	size_t i, j = 0;
 
 	for (i = 0; (*dest)[i] != '\0'; i++)
@@ -72,6 +48,5 @@ char *concat_str(char **dest, char *src)
 	}
 
 	newArr[i] = '\0';
-
 	return (newArr);
 }
