@@ -11,9 +11,8 @@
 ## **Background Context**
 
 Write a simple UNIX command interpreter.
-
-*^ "The Gates of Shell", by [Spencer
-Cheng](https://intranet.alxswe.com/rltoken/AtYRSM03vJDrko9xHodxFQ),
+[]https://s3.amazonaws.com/intranet-projects-files/holbertonschool-low_level_programming/235/shell.jpeg
+*^ "The Gates of Shell", by [Spencer Cheng](https://intranet.alxswe.com/rltoken/AtYRSM03vJDrko9xHodxFQ),
 featuring [Julien
 Barbier](https://intranet.alxswe.com/rltoken/-ezXgcyfhc8qU1DeUInLUA)*
 

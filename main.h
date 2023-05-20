@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <stddef.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 /**
  * struct shell_var - Shell variables struct
@@ -32,30 +33,30 @@ typedef struct shell_var
  * check_cmd_exist - Checks if a cmd exists in the PATH environment variable.
  * @shell: Pointer to the shell structure.
  * @term_cm: Command to check.
- *
+ * @envp: array of environment variables.
  * Return: The command if it exists, NULL otherwise.
  */
-char *check_cmd_exist(shell_var *shell, char *term_cm);
+char *check_cmd_exist(shell_var *shell, char *term_cm, char **envp);
 
 /**
  * _getenv - Gets the value of an environment variable.
  * @var: The environment variable to retrieve.
- *
+ * @envp: environment variable array.
  * Return: The value of the environment variable if found, NULL otherwise.
  */
-char *_getenv(char *var);
+char *_getenv(char *var, char **envp);
 
 /* DEALING WITH STRINGS 11-3-2023 START */
 
 /**
- * _strtok - Extract tokens from a string.
- * @str: The string to be tokenized.
- * @delim: The delimiter character.
+ * _extract_src - Extract strings from a src
+ * @src: The srcing to be extracted_srcized
+ * @delim: The delimiter character
  *
- * Return: Pointer to the next token extracted from 'str',
- *         or NULL if no more tokens are found.
+ * Return: Pointer to the next extracted_src extracted from 'src',
+ *         or NULL if no more extracted_srcs are found.
  */
-char *_strtok(char *str, char *delim);
+char *_extract_src(char *src, char *delim);
 
 /**
  * _strlen - Calculate the length of a null-terminated string.
@@ -111,7 +112,7 @@ void _puts(char *str);
  * rev_str - Reverses a string in-place.
  * @str: The string to be reversed.
  */
-void rev_str(char *str);
+void rev_str(char **str);
 
 /**
  * concat_str - Concatenates two strings.
@@ -174,7 +175,7 @@ void print_env(char **env);
  * Return: Pointer to the array of strings.
  */
 char **set_array_cmd(shell_var *shell, char **buffer, size_t size);
-
+void control_d(shell_var *shell, char **envp);
 /* DEALING WITH STRINGS - dealin with str SEND  */
 
 
@@ -196,4 +197,10 @@ void sigint_handler(int sig);
  * @shell: Pointer to the shell structure.
  */
 void initialize_shell(shell_var *shell);
+int _getline(char **lineptr, size_t *n, FILE *strem);
+/**
+ * cleanup - clean up the varable used before next iteration.
+ * @shell: Pointer to the shell structure to be cleaned.
+ */
+void cleanup(shell_var *shell);
 #endif /* MAIN_H */

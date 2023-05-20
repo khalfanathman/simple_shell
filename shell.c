@@ -21,7 +21,6 @@
 int main(int argc, char *argv[], char **envp)
 {
 	size_t size = 0;
-	ssize_t chRead;
 	shell_var shell;
 
 	initialize_shell(&shell);
@@ -33,27 +32,27 @@ int main(int argc, char *argv[], char **envp)
 			shell.PROMPT = false;
 		if (shell.PROMPT)
 			_puts("cshell$ ");
-		chRead = getline(&(shell.buf), &(shell.size), stdin);
+		shell.chRead = _getline(&(shell.buf), &(shell.size), stdin);
 		if ((shell.buf)[0] == '\r' || (shell.buf)[0] == '\n')
 		{
 			(shell.process_id)++;
 			continue;
 		}
-		if (chRead != -1)
+		if (shell.chRead != -1)
 			shell.fin = setArray(&shell, &(shell.buf), size);
 		else
-			exit(EXIT_SUCCESS);
+			control_d(&shell, envp);
 		if (compare_str((shell.fin)[0], "exit") == 0)
-		{
 			exit(0);
-		}
-		shell.command = check_cmd_exist(&shell, (shell.fin)[0]);
+		shell.command = check_cmd_exist(&shell, (shell.fin)[0], envp);
 		if (shell.command != NULL)
 		{
 			execute_command(&shell, shell.fin, envp);
+			cleanup(&shell);
 		}
 		else
 		{
+			printf((shell.fin)[0]);
 			not_found(argv[0], (shell.fin)[0], shell.process_id, "not found");
 			(shell.process_id)++;
 		}
