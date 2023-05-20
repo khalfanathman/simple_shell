@@ -79,23 +79,28 @@ int compare_str(char *str1, char *str2)
 
 	return (0);
 }
+
 /**
- * _strlen - Calculate the length of a null-terminated string
- * @line: The input string
+ * _strchr - Locate first occurrence of a character in a string.
+ * @line: The string to search within.
+ * @letter: The character to locate.
  *
- * Return: The length of the string (excluding the null terminator)
+ * Return: Pointer to the first occurrence of the char 'c' in the string 'str',
+ *         or NULL if the character is not found.
  */
-size_t _strlen(char *line)
+char *_strchr(char *line, int letter)
 {
-	size_t length = 0;
-
-	while (line[length] != '\0')
+	while (*line != '\0')
 	{
-		length++;
+		if (*line++ == letter)
+		{
+			return (line);
+		}
+		/* *line++; */
 	}
-
-	return (length);
+	return (NULL);
 }
+
 /**
  * _puts - prints strings to stdoute.
  * @str: The string to be printed.
