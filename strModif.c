@@ -52,3 +52,33 @@ char *concat_str(char **dest, char *src)
 	newArr[i] = '\0';
 	return (newArr);
 }
+
+/**
+ * str_to_int - converts str to int status.
+ * @comd: Command that was not found.
+ * @str: string to be converted.
+ * @pr_id: Process ID number.
+ * @prog_name: Name of the program.
+ * 
+ * Return: returns an integer from given str.
+ */
+int str_to_int(char *str, int pr_id, char *prog_name)
+{
+	int i = 0, state, size;
+	int *status = malloc(sizeof(char) * 10);
+
+	while (str[i] != '\0')
+	{
+		if (str[i] < 48 || str[i] > 57)
+		{
+			illegal_no(prog_name, pr_id, "illegal number", str);
+			return (-1);
+		}
+		status[i] = str[i] - '0';
+		i++;
+	}
+
+	size = i;
+	state = arr_to_int(status, size);
+	return (state);
+}
