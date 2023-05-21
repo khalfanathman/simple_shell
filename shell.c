@@ -9,7 +9,6 @@
 #include <errno.h>
 
 #define UNUSED(x) (void)(x)
-
 /**
  * main - simple shell
  * @argc: counts the number of arguments given
@@ -17,7 +16,6 @@
  * @envp: array of environment variables
  * Return: always return 0;
  */
-
 int main(int argc, char *argv[], char **envp)
 {
 	size_t size = 0;
@@ -43,7 +41,10 @@ int main(int argc, char *argv[], char **envp)
 		else
 			control_d(&shell, envp);
 		if (compare_str((shell.fin)[0], "exit") == 0)
-			exit(0);
+		{
+			exiting(&shell, argv[0]);
+			continue;
+		}
 		shell.command = check_cmd_exist(&shell, (shell.fin)[0], envp);
 		if (shell.command != NULL)
 		{
@@ -52,11 +53,9 @@ int main(int argc, char *argv[], char **envp)
 		}
 		else
 		{
-			printf((shell.fin)[0]);
 			not_found(argv[0], (shell.fin)[0], shell.process_id, "not found");
 			(shell.process_id)++;
 		}
-		fflush(stdin);
 	}
 	return (0);
 }
