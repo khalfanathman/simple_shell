@@ -29,14 +29,6 @@ typedef struct shell_var
 	size_t size;
 	ssize_t chRead;
 } shell_var;
-/**
- * check_cmd_exist - Checks if a cmd exists in the PATH environment variable.
- * @shell: Pointer to the shell structure.
- * @term_cm: Command to check.
- * @envp: array of environment variables.
- * Return: The command if it exists, NULL otherwise.
- */
-char *check_cmd_exist(shell_var *shell, char *term_cm, char **envp);
 
 /**
  * _getenv - Gets the value of an environment variable.
@@ -122,20 +114,27 @@ void rev_str(char **str);
  * Return: Pointer to the concatenated string.
  */
 char *concat_str(char **dest, char *src);
-
 /**
- * not_found - Handles the "not found" case.
- * @prog: Name of the program.
+ * str_to_int - converts str to int status.
  * @comd: Command that was not found.
- * @pid_no: Process ID number.
- * @msg: Error message.
+ * @str: string to be converted.
+ * @pr_id: Process ID number.
+ * @prog_name: Name of the program.
+ * 
+ * Return: returns an integer from given str.
  */
-void not_found(char *prog, char *comd, int pid_no, char *msg);
-
+int str_to_int(char *str, int pr_id, char *prog_name);
 /* DEALING WITH STRINGS END */
 
 /* DEALING WITH ARRAYS 15-3-2023 START */
-
+/**
+ * arr_to_int - converts array of ints to single int.
+ * @arr: arry to be compressed.
+ * @size: size of the arr.
+ * 
+ * Return: the converted in.
+ */
+int arr_to_int(int *arr,int size);
 /**
  * copy_arr - It copies an array of str from
 *              stdin
@@ -174,11 +173,18 @@ void print_env(char **env);
  *
  * Return: Pointer to the array of strings.
  */
-char **set_array_cmd(shell_var *shell, char **buffer, size_t size);
-void control_d(shell_var *shell, char **envp);
-/* DEALING WITH STRINGS - dealin with str SEND  */
 
+/* DEALING WITH STRINGS - dealin with str ***END***  */
 
+/* COMMAND OPERATIONS ***START****/
+/**
+ * check_cmd_exist - Checks if a cmd exists in the PATH environment variable.
+ * @shell: Pointer to the shell structure.
+ * @term_cm: Command to check.
+ * @envp: array of environment variables.
+ * Return: The command if it exists, NULL otherwise.
+ */
+char *check_cmd_exist(shell_var *shell, char *term_cm, char **envp);
 /**
  * execute_command - Executes a command using execve.
  * @shell: The pointer to struct variables to execute.
@@ -186,6 +192,28 @@ void control_d(shell_var *shell, char **envp);
  * @envp: The array of environment variables.
  */
 void execute_command(shell_var *shell, char **fin, char **envp);
+/**
+ * set_array_cmd - it creates array of str from
+ *              enviroment variables.
+ * @shell: Pointer to the shell structure.
+ * @buffer: a pointer to the string to be modified
+ * @size: size of the array.
+ * Return: it returns an array of strings.
+ */
+char **set_array_cmd(shell_var *shell, char **buffer, size_t size);
+/**
+ * exiting - converts str to int status.
+ * @shell: stract passed to access the array of commands.
+ * @prog_name: string to be converted.
+ */
+void exiting(shell_var *shell, char *prog_name);
+/**
+ * control_d - Exits a command using CTR + D.
+ * @shell: The pointer to struct variables.
+ *
+ * @envp: The array of environment variables.
+ */
+void control_d(shell_var *shell, char **envp);
 /**
  * sigint_handler - Handles the SIGINT signal.
  * @sig: The signal number.
@@ -197,10 +225,47 @@ void sigint_handler(int sig);
  * @shell: Pointer to the shell structure.
  */
 void initialize_shell(shell_var *shell);
+/**
+ * _getline - reads string from stdin.
+ * @lineptr: The pointer to buffer where the str will be stored.
+ * @n: The size of buffer.
+ * @strem: The stream to be read from.
+ *
+ * Return: returns the number of chars read from stdin n -ve if error;
+ */
 int _getline(char **lineptr, size_t *n, FILE *strem);
 /**
  * cleanup - clean up the varable used before next iteration.
  * @shell: Pointer to the shell structure to be cleaned.
  */
 void cleanup(shell_var *shell);
+/* COMMAND OPERATIONS  ***END*** */
+
+/* DEALING WITH ERRORS ***START** */
+/**
+ * not_found - Handles the "not found" case.
+ * @prog: Name of the program.
+ * @comd: Command that was not found.
+ * @pid_no: Process ID number.
+ * @msg: Error message.
+ */
+void not_found(char *prog, char *comd, int pid_no, char *msg);
+/**
+ * illegal_no - Handles the "illegal number" case.
+ * @prog_name: Name of the program.
+ * @pr_id: Process ID number.
+ * @msg: Error message.
+ * @str: Command that was not found.
+ */
+void illegal_no(char *prog_name, int pr_id, char *msg, char *str);
+/* DEALING WITH ERRORS **END*** */
+
+/**
+ * power - calculate power of a number.
+ * @base: base of power.
+ * @exponent: exponent to be used.
+ * 
+ * Return: return the result of power.
+ */
+int power(int base, int exponent);
 #endif /* MAIN_H */
