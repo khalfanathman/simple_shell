@@ -25,7 +25,6 @@ char **copy_arr(char ***src, int *len)
 
 	argv_copy[*len] = NULL;
 	*src = argv_copy;
-	/* free(argv_copy);  */
 	return (argv_copy);
 }
 /**
@@ -50,12 +49,12 @@ char **setArray(shell_var *shell, char **buffer, size_t size)
 	sh->num_tokens = 0;
 
 	copy = copy_str(copy, *buffer);
-	token = strtok(copy, " ");
+	token = _extract_src(copy, " ");
 
 	while (token != NULL && sh->num_tokens < 10)
 	{
 		tokens[sh->num_tokens++] = token;
-		token = strtok(NULL, " ");
+		token = _extract_src(NULL, " ");
 	}
 
 	for (j = 0; j < sh->num_tokens; j++)
@@ -70,7 +69,6 @@ char **setArray(shell_var *shell, char **buffer, size_t size)
 	}
 
 	finArr[sh->num_tokens] = NULL;
-
 	return (finArr);
 }
 /**
@@ -94,12 +92,12 @@ char **set_array_cmd(shell_var *shell, char **buffer, size_t size)
 
 	sh->num_tokens = 0;
 	copy = copy_str(copy, *buffer);
-	token = strtok(copy, ":");
+	token = _extract_src(copy, ":");
 
 	while (token != NULL && sh->num_tokens < 10)
 	{
 		tokens[sh->num_tokens++] = token;
-		token = strtok(NULL, ":");
+		token = _extract_src(NULL, ":");
 	}
 
 	for (j = 0; j < sh->num_tokens; j++)
@@ -142,4 +140,22 @@ void array_sort(char *arr[], int size)
 			}
 		}
 	}
+}
+
+/**
+ * arr_to_int - converts array of ints to single int.
+ * @arr: arry to be compressed.
+ * @size: size of the arr.
+ * 
+ * Return: the converted in.
+ */
+int arr_to_int(int *arr,int size)
+{
+	static int i = 0;
+
+	if ((1 << size) == 1)
+	{
+		return (0);
+	}
+return ((power(10,size - 1) * arr[i++]) + arr_to_int(arr, (size - 1)));
 }
