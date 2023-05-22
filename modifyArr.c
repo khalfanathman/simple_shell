@@ -146,16 +146,16 @@ void array_sort(char *arr[], int size)
  * arr_to_int - converts array of ints to single int.
  * @arr: arry to be compressed.
  * @size: size of the arr.
- * 
+ *
  * Return: the converted in.
  */
-int arr_to_int(int *arr,int size)
+int arr_to_int(int *arr, int size)
 {
-	static int i = 0;
+	static int i;
 
 	if ((1 << size) == 1)
 	{
 		return (0);
 	}
-return ((power(10,size - 1) * arr[i++]) + arr_to_int(arr, (size - 1)));
+return ((power(10, size - 1) * arr[i++]) + arr_to_int(arr, (size - 1)));
 }
