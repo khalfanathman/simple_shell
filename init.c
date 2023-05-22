@@ -6,7 +6,6 @@
  */
 void initialize_shell(shell_var *shell, char **envp)
 {
-	
 	shell->PROMPT = true;
 	shell->buf = NULL;
 	shell->size = 0;
