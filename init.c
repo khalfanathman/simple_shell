@@ -13,7 +13,6 @@ void initialize_shell(shell_var *shell, char **envp)
 	shell->finArr = NULL;
 	shell->fin = NULL;
 	shell->environs = envp;
-	shell->PATH = _getenv("PATH", envp);
 	shell->command = NULL;
 	shell->process_id = 1;
 	shell->num_tokens = 0;
