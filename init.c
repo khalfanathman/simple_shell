@@ -6,6 +6,7 @@
  */
 void initialize_shell(shell_var *shell, char **envp)
 {
+	
 	shell->PROMPT = true;
 	shell->buf = NULL;
 	shell->size = 0;
@@ -17,4 +18,5 @@ void initialize_shell(shell_var *shell, char **envp)
 	shell->command = NULL;
 	shell->process_id = 1;
 	shell->num_tokens = 0;
+
 }
