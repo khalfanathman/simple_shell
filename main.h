@@ -7,15 +7,17 @@
 
 /**
  * struct shell_var - Shell variables struct
- * @PROMPT: Prompt flag
+ * @PROMPT: Prompt flag(true or false)
  * @buf: Buffer pointer
  * @finArr: Array pointer
  * @fin: Pointer to fin
  * @command: Command pointer
+ * @PATH: path to cmd programs
  * @process_id: Process ID
  * @num_tokens: Number of tokens
- * @size: Size
- * @chRead: Read size
+ * @environs: array of environment variables
+ * @size: Size of fin array
+ * @chRead: number of characters read
  */
 typedef struct shell_var
 {
@@ -24,8 +26,10 @@ typedef struct shell_var
 	char **finArr;
 	char **fin;
 	char *command;
+	char *PATH;
 	int process_id;
 	int num_tokens;
+	char **environs;
 	size_t size;
 	ssize_t chRead;
 } shell_var;
@@ -68,6 +72,12 @@ size_t _strlen(char *line);
  */
 char *_strchr(char *line, int letter);
 
+/**
+ * int_To_Str - Converts an integer to a string.
+ * @str: Pointer to the destination string.
+ * @num: The integer to convert.
+ */
+void int_To_Str(char *str, int num);
 /**
  * compare_str - Checks if two strs are equal.
  * @str1: String 1 to be passed.
@@ -116,11 +126,11 @@ void rev_str(char **str);
 char *concat_str(char **dest, char *src);
 /**
  * str_to_int - converts str to int status.
- * @comd: Command that was not found.
+ *
  * @str: string to be converted.
  * @pr_id: Process ID number.
  * @prog_name: Name of the program.
- * 
+ *
  * Return: returns an integer from given str.
  */
 int str_to_int(char *str, int pr_id, char *prog_name);
@@ -131,10 +141,10 @@ int str_to_int(char *str, int pr_id, char *prog_name);
  * arr_to_int - converts array of ints to single int.
  * @arr: arry to be compressed.
  * @size: size of the arr.
- * 
+ *
  * Return: the converted in.
  */
-int arr_to_int(int *arr,int size);
+int arr_to_int(int *arr, int size);
 /**
  * copy_arr - It copies an array of str from
 *              stdin
@@ -165,26 +175,17 @@ void array_sort(char *arr[], int size);
  * @env: The array of environment variable strings.
  */
 void print_env(char **env);
-/**
- * set_array_cmd - Sets an array of strings by tokenizing a buffer.
- * @shell: Pointer to the shell structure.
- * @buffer: Pointer to the buffer to be tokenized.
- * @size: The size of the array.
- *
- * Return: Pointer to the array of strings.
- */
-
 /* DEALING WITH STRINGS - dealin with str ***END***  */
 
-/* COMMAND OPERATIONS ***START****/
+/* COMMAND OPERATIONS **START** */
+
 /**
  * check_cmd_exist - Checks if a cmd exists in the PATH environment variable.
  * @shell: Pointer to the shell structure.
  * @term_cm: Command to check.
- * @envp: array of environment variables.
  * Return: The command if it exists, NULL otherwise.
  */
-char *check_cmd_exist(shell_var *shell, char *term_cm, char **envp);
+char *check_cmd_exist(shell_var *shell, char *term_cm);
 /**
  * execute_command - Executes a command using execve.
  * @shell: The pointer to struct variables to execute.
@@ -223,8 +224,9 @@ void sigint_handler(int sig);
 /**
  * initialize_shell - Initializes the shell structure.
  * @shell: Pointer to the shell structure.
+ * @envp:environmet variable to be saved locally.
  */
-void initialize_shell(shell_var *shell);
+void initialize_shell(shell_var *shell, char **envp);
 /**
  * _getline - reads string from stdin.
  * @lineptr: The pointer to buffer where the str will be stored.
@@ -239,9 +241,36 @@ int _getline(char **lineptr, size_t *n, FILE *strem);
  * @shell: Pointer to the shell structure to be cleaned.
  */
 void cleanup(shell_var *shell);
+/**
+ * _setenv - sets environment var to user values
+ *
+ * @var: variabe to be set
+ * @val: value to be set
+ * @envp: set of environt variable to search from.
+ *
+ */
+void _setenv(char *var, char *val, char **envp);
+/**
+ * _unsetenv - removes environment variable
+ *
+ * @var: variable to be removed.
+ * @envp: size of the array that will be used
+ *
+ */
+void _unsetenv(char *var, char **envp);
+/**
+ * shell_loop - shell prompt to wait for user input
+ *
+ * @shell: struct variable that can be used through out
+ * @size: size of the array that will be used
+ * @program_name: program name
+ *
+ */
+void shell_loop(shell_var *shell, size_t size, char *program_name);
 /* COMMAND OPERATIONS  ***END*** */
 
 /* DEALING WITH ERRORS ***START** */
+void usage_err(char *str);
 /**
  * not_found - Handles the "not found" case.
  * @prog: Name of the program.
@@ -264,8 +293,9 @@ void illegal_no(char *prog_name, int pr_id, char *msg, char *str);
  * power - calculate power of a number.
  * @base: base of power.
  * @exponent: exponent to be used.
- * 
+ *
  * Return: return the result of power.
  */
 int power(int base, int exponent);
+
 #endif /* MAIN_H */
