@@ -23,7 +23,7 @@ void rev_str(char **str)
 		i++;
 	}
 
-	*str = copy_str(*str,tem);
+	*str = copy_str(*str, tem);
 	free(str1);
 	free(tem);
 }
@@ -55,11 +55,10 @@ char *concat_str(char **dest, char *src)
 
 /**
  * str_to_int - converts str to int status.
- * @comd: Command that was not found.
  * @str: string to be converted.
  * @pr_id: Process ID number.
  * @prog_name: Name of the program.
- * 
+ *
  * Return: returns an integer from given str.
  */
 int str_to_int(char *str, int pr_id, char *prog_name)
