@@ -49,6 +49,41 @@ int reading(char *buff, size_t size, int fd)
 
 	return (chars);
 }
+
+/**
+ * _realloc - reallocates bufer size to ptr.
+ * @ptr: address to be allocated;
+ * @size: the current size of buffer;
+ *
+ * Return: returns a pointer to the new allocated space;
+ */
+
+void *_realloc(void *ptr, size_t size)
+{
+	void *ptrl = malloc(sizeof(ptr));
+	/* size_t i = 0; */
+
+	if (ptr == NULL)
+	{
+		ptr = malloc(size);
+	}
+	else if (ptr != NULL)
+	{
+		if (size == 0)
+		{
+			free(ptr);
+			return (NULL);
+		}
+		else if (size > sizeof(ptr))
+		{
+			ptrl = malloc(size);
+			ptrl = ptr;
+			return (ptrl);
+		}
+
+	}
+	return (ptr);
+}
 /**
  * reallocate - reallocates bufer for str if its not enough.
  * @rd_ch: it saves no of charcter read;
@@ -65,7 +100,8 @@ int reallocate(int rd_ch, size_t sz, char *buf, int *fd, char **lnp, size_t *n)
 	if (errno == ENOMEM)
 	{
 		sz = (sz * 2) + 2;
-		buf = realloc(buf, sizeof(char) * sz);
+		/* realloc should be replaced with manual one */
+		buf = _realloc(buf, sizeof(char) * sz);
 		if (buf == NULL)
 		{
 			perror("realloc()");
@@ -111,7 +147,7 @@ int _getline(char **lineptr, size_t *n, FILE *strem)
 		if (buff == NULL)
 		{
 			perror("malloc()");
-			return (errno);
+			return (read_chars);
 		}
 		read_chars = reading(buff, size, *fd);
 		if (read_chars == -1)
