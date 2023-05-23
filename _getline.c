@@ -13,21 +13,14 @@
  *
  * Return: returns the number of characters read;
  */
-int reading(char *buff, size_t size, int fd)
+int reading(char *buff, int fd)
 {
 	size_t i = 0;
 	ssize_t charsRead, chars = -1;
 	char c;
 
-	while (i < size - 1)
+	while ((charsRead = read(fd, &c, sizeof(c))) > 0)
 	{
-		charsRead = read(fd, &c, sizeof(c));
-
-		if (charsRead == 0)
-		{
-			buff[i] = '\0';
-			return (-1);
-		}
 
 		if (c == '\n')
 		{
@@ -44,6 +37,7 @@ int reading(char *buff, size_t size, int fd)
 
 	if (charsRead == 0)
 	{
+		buff[i] = '\0';
 		return (-1);
 	}
 
@@ -67,6 +61,7 @@ void *_realloc(void *ptr, size_t size)
 	{
 		ptr = malloc(size);
 	}
+
 	else if (ptr != NULL)
 	{
 		if (size == 0)
@@ -74,14 +69,15 @@ void *_realloc(void *ptr, size_t size)
 			free(ptr);
 			return (NULL);
 		}
+
 		else if (size > sizeof(ptr))
 		{
 			ptrl = malloc(size);
 			ptrl = ptr;
 			return (ptrl);
 		}
-
 	}
+
 	return (ptr);
 }
 /**
@@ -102,21 +98,26 @@ int reallocate(int rd_ch, size_t sz, char *buf, int *fd, char **lnp, size_t *n)
 		sz = (sz * 2) + 2;
 		/* realloc should be replaced with manual one */
 		buf = _realloc(buf, sizeof(char) * sz);
+
 		if (buf == NULL)
 		{
 			perror("realloc()");
 			exit(errno);
 		}
-		rd_ch = reading(buf, sz, *fd);
+
+		rd_ch = reading(buf, *fd);
+
 		if (rd_ch == -1)
 		{
 			perror("read(2)");
 			return (rd_ch);
 		}
+
 		*lnp = buf;
 		*n = sz;
 		return (rd_ch);
 	}
+
 	return (rd_ch);
 }
 /**
@@ -136,6 +137,7 @@ int _getline(char **lineptr, size_t *n, FILE *strem)
 
 	buff = *lineptr;
 	size = *n;
+
 	if (isatty(STDIN_FILENO))
 	{
 		*fd = open("/dev/tty", O_RDONLY, S_IRWXU);
@@ -149,7 +151,7 @@ int _getline(char **lineptr, size_t *n, FILE *strem)
 			perror("malloc()");
 			return (read_chars);
 		}
-		read_chars = reading(buff, size, *fd);
+		read_chars = reading(buff, *fd);
 		if (read_chars == -1)
 		{
 			*lineptr = buff;
@@ -162,7 +164,9 @@ int _getline(char **lineptr, size_t *n, FILE *strem)
 	}
 	else
 	{
-		read_chars = reading(buff, size, *fd);
+		read_chars = reading(buff, *fd);
+		size = read_chars;
+		*n = size;
 		read_chars = reallocate(read_chars, size, buff,  fd,  lineptr, n);
 		return (read_chars);
 	}
