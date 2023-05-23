@@ -1,7 +1,4 @@
-#include <unistd.h>
-#include <string.h>
 #include "main.h"
-#include <stdlib.h>
 
 /**
  * _getenv - Gets the value of an environment variable.

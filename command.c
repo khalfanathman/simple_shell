@@ -1,15 +1,7 @@
 #define _DEFAULT_SOURCE
 #include "main.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <dirent.h>
-#include <sys/stat.h>
-#include <stdbool.h>
-#include <fcntl.h>
-#include <sys/wait.h>
-#include <errno.h>
+
+
 /**
  * conc_fpath - Concatenates the file path.
  * @filepath: Pointer to the file path.

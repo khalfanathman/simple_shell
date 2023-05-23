@@ -1,12 +1,5 @@
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <signal.h>
+
 #include "main.h"
-#include <stdbool.h>
-#include <fcntl.h>
-#include <sys/wait.h>
-#include <errno.h>
 
 #define UNUSED(x) (void)(x)
 /**

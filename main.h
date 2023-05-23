@@ -2,9 +2,17 @@
 #define MAIN_H
 #include <unistd.h>
 #include <stddef.h>
-#include <stdbool.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
-
+#include <signal.h>
+#include <stdbool.h>
+#include <fcntl.h>
+#include <dirent.h>
+#include <ctype.h>
+#include <sys/wait.h>
+#include <errno.h>
 /**
  * struct shell_var - Shell variables struct
  * @PROMPT: Prompt flag(true or false)

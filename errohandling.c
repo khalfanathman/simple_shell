@@ -1,6 +1,4 @@
-#include <unistd.h>
 #include "main.h"
-#include <stdlib.h>
 
 /**
  * int_To_Str - Converts an integer to a string.

@@ -1,9 +1,4 @@
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <errno.h>
-#include <sys/stat.h>
+#include "main.h"
 
 /**
  * reading - performs reading character by character.

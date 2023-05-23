@@ -1,8 +1,4 @@
 #include "main.h"
-#include <signal.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 /**
  * sigint_handler - Handles the SIGINT signal.

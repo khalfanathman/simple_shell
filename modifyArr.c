@@ -1,10 +1,4 @@
 #include "main.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <dirent.h>
-#include <unistd.h>
 /**
  * copy_arr - it copies an array of str from user
  *              stdin

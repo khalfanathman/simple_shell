@@ -1,7 +1,4 @@
-#include <unistd.h>
-#include <stdlib.h>
 #include "main.h"
-#include <stdio.h>
 /**
  * _extract_src - Extract strings from a src
  * @src: The srcing to be extracted_srcized
