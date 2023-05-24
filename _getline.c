@@ -3,7 +3,6 @@
 /**
  * reading - performs reading character by character.
  * @buff: The buffer to store the string read from sdtin.
- * @size: The size of buffer.
  * @fd: The file discriptor to be read from
  *
  * Return: returns the number of characters read;

@@ -36,8 +36,8 @@ char *check_cmd_exist(shell_var *shell, char *term_cm)
 	char *fpath = malloc(sizeof(char *) * 11);
 	char **arr, *commnd;
 
-	PATH = _getenv("PATH", sh->environs);	
-	if (PATH == NULL || fpath == NULL)
+	PATH = _getenv("PATH", sh->environs);
+	if (NULL == PATH   || NULL == fpath)
 	{
 		return (NULL);
 	}
