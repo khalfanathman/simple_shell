@@ -20,10 +20,15 @@
  * @finArr: Array pointer
  * @fin: Pointer to fin
  * @command: Command pointer
+ * @comStr: command str from setarr
+ * @pathStr: path str from Setcmdarr.
+ * @copTok: token frimsetarr;
+ * @fpath: path token from setcmdarr
  * @PATH: path to cmd programs
  * @process_id: Process ID
  * @num_tokens: Number of tokens
  * @environs: array of environment variables
+ * @getVal: used by getenv;
  * @size: Size of fin array
  * @chRead: number of characters read
  */
@@ -34,10 +39,15 @@ typedef struct shell_var
 	char **finArr;
 	char **fin;
 	char *command;
+	char *comStr;
+	char *pathStr;
+	char *copTok;
+	char *fpath;
 	char *PATH;
 	int process_id;
 	int num_tokens;
 	char **environs;
+	char *getVal;
 	size_t size;
 	ssize_t chRead;
 } shell_var;
@@ -45,10 +55,10 @@ typedef struct shell_var
 /**
  * _getenv - Gets the value of an environment variable.
  * @var: The environment variable to retrieve.
- * @envp: environment variable array.
+ * @sh:shell variables;
  * Return: The value of the environment variable if found, NULL otherwise.
  */
-char *_getenv(char *var, char **envp);
+char *_getenv(char *var, shell_var *sh);
 
 /* DEALING WITH STRINGS 11-3-2023 START */
 
@@ -101,7 +111,7 @@ int compare_str(char *str1, char *str2);
  * @dest: A pointer to the string to be modified
  * Return: It returns a copy of the array.
  */
-char *copy_str(char *dest, char *src);
+char *copy_str(char **dest, char *src);
 
 /**
  * compare_str_long - Compares two strings and returns the shorter one.
@@ -129,9 +139,8 @@ void rev_str(char **str);
  * @dest: Pointer to the destination string.
  * @src: Pointer to the source string.
  *
- * Return: Pointer to the concatenated string.
  */
-char *concat_str(char **dest, char *src);
+void concat_str(char **dest, char *src);
 /**
  * str_to_int - converts str to int status.
  *
@@ -158,10 +167,11 @@ int arr_to_int(int *arr, int size);
 *              stdin
  * @src: a pointer to the string to be modified
  * @len: its the length of the array t be copied
+ * @dest: destination fro the array copied
  * Return: it returns an a copy of the array.
  */
 
-char **copy_arr(char ***src, int *len);
+void copy_arr(char *dest[], char *src[], int len);
 /**
  * setArray - it creates array of str from user
  *              stdin

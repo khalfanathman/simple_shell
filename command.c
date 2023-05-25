@@ -13,10 +13,9 @@
 
 char *conc_fpath(char **filepath, char *path_entry, char *cmd)
 {
-	*filepath = copy_str(*filepath, path_entry);
-	*filepath = concat_str(filepath, "/");
-	*filepath = concat_str(filepath, cmd);
-
+	copy_str(filepath, path_entry);
+	concat_str(filepath, "/");
+	concat_str(filepath, cmd);
 	return (*filepath);
 }
 
@@ -31,20 +30,22 @@ char *conc_fpath(char **filepath, char *path_entry, char *cmd)
 char *check_cmd_exist(shell_var *shell, char *term_cm)
 {
 	shell_var *sh = shell;
-	char *copy = NULL, *PATH;
+	char *copy = malloc(sizeof(char) * 120);
+	char *PATH = _getenv("PATH", sh);
+	char *fpath =  malloc(sizeof(char) * 120);
+	char **arr;
 	int i = 0;
-	char *fpath = malloc(sizeof(char *) * 11);
-	char **arr, *commnd;
 
-	PATH = _getenv("PATH", sh->environs);
-	if (NULL == PATH   || NULL == fpath)
+	if (copy == NULL)
 	{
+		perror("malloc()");
 		return (NULL);
 	}
-	copy = copy_str(copy, PATH);
+
+	copy_str(&copy, PATH);
 	arr = set_array_cmd(sh, &copy, 10);
 	array_sort(arr, 10);
-
+	sh->copTok = copy;
 	while (arr[i] != NULL)
 	{
 		if (compare_str(arr[i], term_cm) == 0)
@@ -56,18 +57,15 @@ char *check_cmd_exist(shell_var *shell, char *term_cm)
 
 		if (access(fpath, X_OK) == 0)
 		{
-			commnd = copy_str(term_cm, fpath);
-			free(fpath);
-			fpath = NULL;
-			return (commnd);
-
+			free(copy);
+			sh->fpath = fpath;
+			return (fpath);
 		}
 
 		i++;
 		free(fpath);
 		fpath = NULL;
 	}
-
 	return (NULL);
 }
 /**
@@ -114,16 +112,23 @@ void control_d(shell_var *shell, char **envp)
 
 	if (sh->buf != NULL)
 	{
-		sh->fin = setArray(sh, &(sh->buf), sh->size);
+		setArray(sh, &(sh->buf), sh->size);
+
 		if ((sh->fin)[0] != NULL)
 		{
 			sh->command = check_cmd_exist(sh, (sh->fin)[0]);
 		}
+
 		if (sh->command != NULL)
 		{
 			execute_command(sh, sh->fin, envp);
+			cleanup(sh);
+			return;
 		}
+
 		cleanup(sh);
+		free(sh->comStr);
+		free(sh->pathStr);
 	}
 	exit(EXIT_SUCCESS);
 }

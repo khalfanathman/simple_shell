@@ -8,7 +8,7 @@ void sigint_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		_exit(0);
+		exit(0);
 	}
 }
 /**
@@ -19,9 +19,14 @@ void cleanup(shell_var *shell)
 {
 	shell_var *sh = shell;
 
+
 	free(sh->buf);
 	free(sh->fin);
 	free(sh->finArr);
+	free(sh->comStr);
+	free(sh->pathStr);
+	free(sh->fpath);
+	free(sh->getVal);
 	sh->chRead = 0;
 	shell->num_tokens = 0;
 	sh->command = NULL;
@@ -30,6 +35,10 @@ void cleanup(shell_var *shell)
 	sh->finArr = NULL;
 	sh->buf = NULL;
 	sh->fin = NULL;
+	sh->comStr = NULL;
+	sh->fpath = NULL;
+	sh->copTok = NULL;
+	sh->pathStr = NULL;
 	fflush(stdin);
 }
 /**
@@ -67,16 +76,20 @@ void exiting(shell_var *shell, char *prog_name)
 		status = str_to_int(str, sh->process_id, prog_name);
 
 		if (status >= 0)
+		{
+			cleanup(sh);
 			exit(status);
-
+		}
 		else
 		{
+			cleanup(sh);
 			return;
 		}
 	}
 
 	else
 	{
+		cleanup(sh);
 		exit(status);
 	}
 }

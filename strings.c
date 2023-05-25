@@ -9,18 +9,19 @@
  *
  * Return: it returns an a copy of the array.
  */
-char *copy_str(char *dest, char *src)
+char *copy_str(char **dest, char *src)
 {
-	int i, len = _strlen(src);
+	int i = 0, len = 0;
 
-	dest = malloc((len + 1) * sizeof(char));
+	len = _strlen(src);
+	/* dest = NULL; */
 	for (i = 0; i < len; i++)
 	{
-		dest[i] = src[i];
+		(*dest)[i] = src[i];
 	}
 
-	dest[len] = '\0';
-	return (dest);
+	(*dest)[len] = '\0';
+	return (*dest);
 }
 
 /**

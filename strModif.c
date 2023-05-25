@@ -8,19 +8,22 @@
  */
 void rev_str(char **str)
 {
-	int len = _strlen(*str), i = 0;
-	char *str1 = malloc(sizeof(char) * len);
-	char *tem = malloc(sizeof(char) * len);
+	int len = 0, i = 0;
+	char *str1;
+	char *tem;
 
-	str1 = copy_str(str1, *str);
+	len = _strlen(*str);
+	str1 = malloc(sizeof(char) * len);
+	tem = malloc(sizeof(char) * len);
+	copy_str(&str1, *str);
 
-	while (i < len)
+	while (i < len - 1)
 	{
-		tem[i] = str1[len - i - 1];
+		tem[i] = str1[len - i];
 		i++;
 	}
 
-	*str = copy_str(*str, tem);
+	copy_str(str, tem);
 	free(str1);
 	free(tem);
 }
@@ -28,15 +31,16 @@ void rev_str(char **str)
  * concat_str - concatenates the src to dest
  * @dest: The input string to be concatenated to
  * @src: The input string to be concatenated from
- * Return: concatenated string;
  */
-char *concat_str(char **dest, char *src)
+void concat_str(char **dest, char *src)
 {
-	size_t total_len = _strlen(*dest) + _strlen(src) + 1;
+	size_t dest_len = _strlen(*dest);
+	size_t src_len = _strlen(src);
+	size_t total_len = dest_len + src_len + 1;
 	char *newArr = malloc(sizeof(char) * total_len);
 	size_t i, j = 0;
 
-	for (i = 0; (*dest)[i] != '\0'; i++)
+	for (i = 0; i < dest_len; i++)
 	{
 		newArr[i] = (*dest)[i];
 	}
@@ -47,7 +51,8 @@ char *concat_str(char **dest, char *src)
 	}
 
 	newArr[i] = '\0';
-	return (newArr);
+	free(*dest);
+	*dest = newArr;
 }
 
 /**
@@ -70,11 +75,13 @@ int str_to_int(char *str, int pr_id, char *prog_name)
 			illegal_no(prog_name, pr_id, "illegal number", str);
 			return (-1);
 		}
+
 		status[i] = str[i] - '0';
 		i++;
 	}
 
 	size = i;
 	state = arr_to_int(status, size);
+	free(status);
 	return (state);
 }

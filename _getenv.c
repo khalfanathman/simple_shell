@@ -3,33 +3,37 @@
 /**
  * _getenv - Gets the value of an environment variable.
  * @var: The environment variable to retrieve.
- * @envp: environment variable array
+ * @sh: shell variables
  * Return: The value of the environment variable if found, NULL otherwise.
  */
-char *_getenv(char *var, char **envp)
+char *_getenv(char *var, shell_var *sh)
 {
-	char *val = NULL, *copy = NULL, *cp;
-	char **env = envp;
+	char *val = NULL;
+	char *copy = NULL;
+	char *token;
+	char **env = sh->environs;
 	int i = 0;
 
 	while (env[i] != NULL)
 	{
-		cp = copy_str(copy, env[i]);
-		copy = _extract_src(cp, "=");
+		copy = malloc(strlen(env[i]) + 1);
+		copy_str(&copy, env[i]);
+		token = strtok(copy, "=");
 
-		if (compare_str(var, copy) == 0)
+		if (compare_str(var, token) == 0)
 		{
-			/**
-			 * *cp = *(cp + _strlen(copy));  <= i found this
-			 * replaces char located at strlen
-			 *
-			 */
-			val = (cp + _strlen(copy) + 1);
+			token = strtok(NULL, "=");
+			val = malloc(strlen(token) + 1);
+			copy_str(&val, token);
+			free(copy);
+			sh->getVal = val;
 			return (val);
 		}
 
 		i++;
+		free(copy);
 	}
 
+	free(val);
 	return (NULL);
 }
