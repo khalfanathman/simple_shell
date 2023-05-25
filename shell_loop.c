@@ -83,7 +83,7 @@ void shell_loop(shell_var *shell, size_t size, char *program_name)
 			shell->PROMPT = false;
 
 		if (shell->PROMPT)
-			_puts("cshell$ ");
+			_puts("cshell$ \n");
 		shell->chRead = _getline(&(shell->buf), &(shell->size), stdin);
 
 
