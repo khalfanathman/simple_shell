@@ -1,17 +1,6 @@
 #include "main.h"
 
 /**
- * sigint_handler - Handles the SIGINT signal.
- * @sig: The signal number.
- */
-void sigint_handler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		exit(0);
-	}
-}
-/**
  * cleanup - clean up the varable used before next iteration.
  * @shell: Pointer to the shell structure to be cleaned.
  */
@@ -19,16 +8,17 @@ void cleanup(shell_var *shell)
 {
 	shell_var *sh = shell;
 
-
 	free(sh->buf);
 	free(sh->fin);
 	free(sh->finArr);
 	free(sh->comStr);
 	free(sh->pathStr);
 	free(sh->fpath);
+	free(sh->PATH);
 	free(sh->getVal);
+	free(sh->command);
 	sh->chRead = 0;
-	shell->num_tokens = 0;
+	sh->num_tokens = 0;
 	sh->command = NULL;
 	sh->num_tokens = 0;
 	sh->size = 0;
@@ -66,7 +56,7 @@ int power(int base, int exponent)
 void exiting(shell_var *shell, char *prog_name)
 {
 	int status = 0;
-	char *str;
+	char *str = NULL;
 	shell_var *sh = shell;
 
 	str = sh->fin[1];
@@ -89,7 +79,10 @@ void exiting(shell_var *shell, char *prog_name)
 
 	else
 	{
-		cleanup(sh);
+		free(sh->fin);
+		free(sh->buf);
+		free(sh->comStr);
+		/* cleanup(shell); */
 		exit(status);
 	}
 }

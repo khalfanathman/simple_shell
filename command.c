@@ -1,7 +1,15 @@
 #define _DEFAULT_SOURCE
 #include "main.h"
-
-
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+#include <dirent.h>
+#include <sys/stat.h>
+#include <stdbool.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <errno.h>
 /**
  * conc_fpath - Concatenates the file path.
  * @filepath: Pointer to the file path.
@@ -13,43 +21,48 @@
 
 char *conc_fpath(char **filepath, char *path_entry, char *cmd)
 {
-	copy_str(filepath, path_entry);
-	concat_str(filepath, "/");
-	concat_str(filepath, cmd);
+	char *str = NULL, *str_c = NULL, *temp = NULL;
+
+	str = copy_str(*filepath, path_entry);
+	str_c = concat_str(&str, "/");
+	temp = concat_str(&str_c, cmd);
+	free(str_c);
+	free(str);
+	*filepath = temp;
 	return (*filepath);
 }
 
 /**
  * check_cmd_exist - Checks if a cmd exists in the PATH environment variable.
- *
+ * @shell: a shell command varaibles.
  * @term_cm: Command to check.
- * @shell: The pointer to struct variables to execute.
+ *
  * Return: The command if it exists, NULL otherwise.
  */
 
 char *check_cmd_exist(shell_var *shell, char *term_cm)
 {
 	shell_var *sh = shell;
-	char *copy = malloc(sizeof(char) * 120);
-	char *PATH = _getenv("PATH", sh);
-	char *fpath =  malloc(sizeof(char) * 120);
-	char **arr;
+	char *copy = NULL, *path = getenv("PATH");
 	int i = 0;
+	char *fpath = NULL;
+	char **arr;
 
-	if (copy == NULL)
+	if (path == NULL)
 	{
-		perror("malloc()");
-		return (NULL);
+		perror("path");
+		exit(EXIT_FAILURE);
 	}
 
-	copy_str(&copy, PATH);
+	copy = copy_str(copy, path);
 	arr = set_array_cmd(sh, &copy, 10);
 	array_sort(arr, 10);
-	sh->copTok = copy;
+
 	while (arr[i] != NULL)
 	{
 		if (compare_str(arr[i], term_cm) == 0)
 		{
+			sh->pathStr = copy;
 			return (term_cm);
 		}
 
@@ -57,8 +70,7 @@ char *check_cmd_exist(shell_var *shell, char *term_cm)
 
 		if (access(fpath, X_OK) == 0)
 		{
-			free(copy);
-			sh->fpath = fpath;
+			sh->PATH = copy;
 			return (fpath);
 		}
 
@@ -66,15 +78,18 @@ char *check_cmd_exist(shell_var *shell, char *term_cm)
 		free(fpath);
 		fpath = NULL;
 	}
+
+	sh->PATH = copy;
 	return (NULL);
 }
 /**
  * execute_command - Executes a command using execve.
- * @shell: The pointer to struct variables to execute.
+ * @shell: a shell command varaibles.
+ * @command: The command to execute.
  * @fin: The array of command arguments.
  * @envp: The array of environment variables.
  */
-void execute_command(shell_var *shell, char **fin, char **envp)
+void execute_command(shell_var *shell, char *command, char **fin, char **envp)
 {
 	pid_t child_pid;
 	shell_var *sh = shell;
@@ -83,9 +98,9 @@ void execute_command(shell_var *shell, char **fin, char **envp)
 
 	if (child_pid == 0)
 	{
-		if (execve(sh->command, fin, envp) == -1)
+		if (execve(command, fin, envp) == -1)
 		{
-			(sh->process_id)++;
+			sh->process_id++;
 			perror(fin[0]);
 			return;
 		}
@@ -94,41 +109,9 @@ void execute_command(shell_var *shell, char **fin, char **envp)
 	else
 	{
 		wait(NULL);
-		sh->command = NULL;
-		/* free(shell->fin); */
-		(sh->process_id)++;
+		command = NULL;
+		free(fin);
+		sh->process_id++;
 		return;
 	}
-}
-/**
- * control_d - Exits a command using CTR + D.
- * @shell: The pointer to struct variables.
- *
- * @envp: The array of environment variables.
- */
-void control_d(shell_var *shell, char **envp)
-{
-	shell_var *sh = shell;
-
-	if (sh->buf != NULL)
-	{
-		setArray(sh, &(sh->buf), sh->size);
-
-		if ((sh->fin)[0] != NULL)
-		{
-			sh->command = check_cmd_exist(sh, (sh->fin)[0]);
-		}
-
-		if (sh->command != NULL)
-		{
-			execute_command(sh, sh->fin, envp);
-			cleanup(sh);
-			return;
-		}
-
-		cleanup(sh);
-		free(sh->comStr);
-		free(sh->pathStr);
-	}
-	exit(EXIT_SUCCESS);
 }

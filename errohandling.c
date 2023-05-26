@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include "main.h"
 
 /**
@@ -27,6 +28,8 @@ void int_To_Str(char *str, int num)
 	}
 
 	str[i] = '\0';
+
+	rev_str(str);
 }
 
 /**
@@ -39,10 +42,9 @@ void int_To_Str(char *str, int num)
 
 void not_found(char *prog, char *comd, int pid_no, char *msg)
 {
-	char *str = malloc(sizeof(char) * 4);
+	char str[4];
 
 	int_To_Str(str, pid_no);
-	rev_str(&str);
 	_puts(prog);
 	_puts(": ");
 	_puts(comd);
@@ -51,7 +53,6 @@ void not_found(char *prog, char *comd, int pid_no, char *msg)
 	_puts(": ");
 	_puts(msg);
 	_puts("\n");
-	free(str);
 }
 /**
  * illegal_no - Handles the "illegal number" case.
@@ -65,7 +66,7 @@ void illegal_no(char *prog_name, int pr_id, char *msg, char *str)
 	char *string = malloc(sizeof(char) * 4);
 
 	int_To_Str(string, pr_id);
-	rev_str(&string);
+	rev_str(string);
 	_puts(prog_name);
 	_puts(": ");
 	_puts(string);
