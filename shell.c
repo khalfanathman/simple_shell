@@ -35,7 +35,7 @@ int main(int argc, char *argv[], char **envp)
 		if (!isatty(STDIN_FILENO))
 			shell.PROMPT  = false;
 		if (shell.PROMPT)
-			_puts("cshell$ ");
+			_puts("cshell$ \n");
 		chRead = getline(&shell.buf, &size, stdin);
 		if (shell.buf[0] == '\r' || shell.buf[0] == '\n')
 		{
