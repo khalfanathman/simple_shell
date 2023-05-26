@@ -87,7 +87,7 @@ bool input_check(shell_var *shell, char *command, char *prg_name, char **envp)
 	{
 		if (execve(command, shell->fin, envp) == -1)
 		{
-			cleanup(shell);
+			/* cleanup(shell); */
 			shell->process_id++;
 			perror(prg_name);
 			return (false);
@@ -96,7 +96,8 @@ bool input_check(shell_var *shell, char *command, char *prg_name, char **envp)
 	else
 	{
 		wait(NULL);
-		cleanup(shell);
+		if (isatty(STDIN_FILENO))
+			cleanup(shell);
 		/* shell->process_id++; */
 		return (false);
 	}
