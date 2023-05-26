@@ -63,7 +63,7 @@ int main(int argc, char *argv[], char **envp)
 			shell.process_id++;
 			continue;
 		}
-		fflush(stdin);
+		fflush(stdout);
 	}
 	return (0);
 }
@@ -90,15 +90,16 @@ bool input_check(shell_var *shell, char *command, char *prg_name, char **envp)
 			/* cleanup(shell); */
 			shell->process_id++;
 			perror(prg_name);
+			fflush(stdout);
 			return (false);
 		}
 	}
 	else
 	{
 		wait(NULL);
-		if (isatty(STDIN_FILENO))
-			cleanup(shell);
+		cleanup(shell);
 		/* shell->process_id++; */
+		fflush(stdout);
 		return (false);
 	}
 		return (true);

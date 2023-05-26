@@ -9,27 +9,26 @@ void cleanup(shell_var *shell)
 	shell_var *sh = shell;
 
 	free(sh->buf);
-	free(sh->fin);
+	free(sh->command);
 	free(sh->finArr);
-	free(sh->comStr);
-	free(sh->pathStr);
-	free(sh->fpath);
-	free(sh->PATH);
-	free(sh->getVal);
-	/* free(sh->command); */
-	sh->chRead = 0;
-	sh->num_tokens = 0;
-	sh->command = NULL;
-	sh->num_tokens = 0;
-	sh->size = 0;
 	sh->finArr = NULL;
 	sh->buf = NULL;
 	sh->fin = NULL;
 	sh->comStr = NULL;
 	sh->fpath = NULL;
 	sh->copTok = NULL;
-	sh->pathStr = NULL;
-	fflush(stdin);
+	sh->pathStr = NULL; 
+	free(sh->fpath);
+	free(sh->comStr);
+	free(sh->pathStr);
+	sh->num_tokens = 0;
+	sh->size = 0;
+	free(sh->getVal);
+	sh->chRead = 0;
+	sh->num_tokens = 0;
+	sh->command = NULL;
+	free(sh->PATH);
+	free(sh->fin);
 }
 /**
  * power - calculate power of a number.

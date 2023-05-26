@@ -45,7 +45,7 @@ char *check_cmd_exist(shell_var *shell, char *term_cm)
 	shell_var *sh = shell;
 	char *copy = NULL, *path = getenv("PATH");
 	int i = 0;
-	char *fpath = NULL;
+	char *fpath = malloc(sizeof(char) * 11);
 	char **arr;
 
 	if (path == NULL)
@@ -62,8 +62,9 @@ char *check_cmd_exist(shell_var *shell, char *term_cm)
 	{
 		if (compare_str(arr[i], term_cm) == 0)
 		{
-			sh->pathStr = copy;
-			return (term_cm);
+			/* sh->pathStr = copy; */
+			fpath = term_cm;
+			return (fpath);
 		}
 
 		fpath = conc_fpath(&fpath, arr[i], term_cm);
