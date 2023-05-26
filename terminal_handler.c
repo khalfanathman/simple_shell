@@ -16,7 +16,7 @@ void cleanup(shell_var *shell)
 	free(sh->fpath);
 	free(sh->PATH);
 	free(sh->getVal);
-	free(sh->command);
+	/* free(sh->command); */
 	sh->chRead = 0;
 	sh->num_tokens = 0;
 	sh->command = NULL;
