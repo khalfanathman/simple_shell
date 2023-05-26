@@ -17,7 +17,7 @@ void cleanup(shell_var *shell)
 	sh->comStr = NULL;
 	sh->fpath = NULL;
 	sh->copTok = NULL;
-	sh->pathStr = NULL; 
+	sh->pathStr = NULL;
 	free(sh->fpath);
 	free(sh->comStr);
 	free(sh->pathStr);
