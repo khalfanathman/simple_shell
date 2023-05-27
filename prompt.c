@@ -38,7 +38,10 @@ int main(int ac, char **av, char **env)
 		}
 
 		if (_strcmp(stringArgumentsArray[0], "exit") == 0)
+		{
+			free(commandlineArgs);
 			exit(0);
+		}
 
 		path_directories(stringArgumentsArray[0], &found_program);
 
@@ -58,6 +61,8 @@ int main(int ac, char **av, char **env)
 			perror(stringArgumentsArray[0]);
 		found_program = NULL;
 		_puts("simple_Shell ($) ");
+		free(commandlineArgs);
+		commandlineArgs = NULL;
 	}
 	free(commandlineArgs);
 	return (0);
