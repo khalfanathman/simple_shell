@@ -11,58 +11,29 @@
 
 int main(int ac, char **av, char **env)
 {
-	char *stringArgumentsArray[5];
-	char *commandlineArgs = NULL, *token, *preToken, *found_program = NULL;
-	size_t n = 0, i;
+	char **stringArgumentsArray;
+	char *commandlineArgs = NULL, *found_program = NULL;
+	size_t n = 0;
 	ssize_t charactersRead;
-	int status;
-	pid_t pid;
 
 	UNUSED(ac);
 	UNUSED(av);
 
 	_puts("simple_Shell ($) ");
 
-	/* read from standard input*/
 	while ((charactersRead = getline(&commandlineArgs, &n, stdin)) != -1)
 	{
-		preToken = strtok(commandlineArgs, "\n"); /*chop-off the newline character*/
-
-		for (i = 0; ; i++, preToken = NULL)
-		{
-			token = strtok(preToken, " ");
-			if (token == NULL)
-				break;
-			stringArgumentsArray[i] = token;
-			stringArgumentsArray[i + 1] = NULL;
-		}
+		stringArgumentsArray = tokenizer(commandlineArgs);
 
 		if (_strcmp(stringArgumentsArray[0], "exit") == 0)
 		{
 			free(commandlineArgs);
 			exit(0);
 		}
-
 		path_directories(stringArgumentsArray[0], &found_program);
-
-		if (found_program != NULL)
-		{
-			pid = fork();
-
-			if (pid == 0)
-			{
-				if (execve(found_program, stringArgumentsArray, env) == -1)
-					perror("ERROR:");
-			}
-			else
-				wait(&status);
-		}
-		else
-			perror(stringArgumentsArray[0]);
+		execute(found_program, stringArgumentsArray, env);
 		found_program = NULL;
 		_puts("simple_Shell ($) ");
-		free(commandlineArgs);
-		commandlineArgs = NULL;
 	}
 	free(commandlineArgs);
 	return (0);

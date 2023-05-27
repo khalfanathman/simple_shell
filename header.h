@@ -15,5 +15,7 @@ char *_strcpy(char *path);
 void path_directories(char *program, char **found_program);
 int _strcmp(char *string1, char *string2);
 void _puts(char *str);
+char **tokenizer(char *commandlineArgs);
+void execute(char *found_program, char **stringArgumentsArray, char **env);
 
 #endif /* HEADER_H */
