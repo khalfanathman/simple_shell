@@ -1,4 +1,4 @@
-#include <unistd.h>
+#include "header.h"
 
 /**
  * _strcmp - checks if two strings are exactly the same

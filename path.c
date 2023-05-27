@@ -1,12 +1,5 @@
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-char *_getenv(char *name);
-char *_strconcat(char *str1, char *str2);
-char *_strcpy(char *path);
+#include "header.h"
+
 /**
  * path_directories - makes paths and searches for a program in set folders
  * @program: what the user typed as a command on prompt

@@ -1,13 +1,5 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-void path_directories(char *program, char **found_program);
-int _strcmp(char *string1, char *string2);
-void _puts(char *str);
-
+#include "header.h"
+#define UNUSED(x) (void)(x)
 /**
  * main - Entry prompt program: takes in commands and executes them
  * @ac: Number of arguments provided by user
@@ -25,6 +17,9 @@ int main(int ac, char **av, char **env)
 	ssize_t charactersRead;
 	int status;
 	pid_t pid;
+
+	UNUSED(ac);
+	UNUSED(av);
 
 	_puts("simple_Shell ($) ");
 

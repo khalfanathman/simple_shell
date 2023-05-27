@@ -1,5 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
+#include "header.h"
 
 /**
  * _strconcat - makes a new string by joining together two given strings

@@ -1,5 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
+#include "header.h"
 
 /**
  * _strcpy - allocate new memory location and copy
