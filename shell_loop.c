@@ -34,9 +34,8 @@ bool input_check(shell_var *shell, char *program_name, size_t size)
 
 	if (shell->chRead != -1)
 	{
-		shell->fin = setArray(shell, &(shell->buf), size);
+		setArray(shell, &(shell->buf), size);
 	}
-
 	else
 	{
 		control_d(shell, shell->environs);
@@ -84,11 +83,12 @@ void shell_loop(shell_var *shell, size_t size, char *program_name)
 			shell->PROMPT = false;
 
 		if (shell->PROMPT)
-			_puts("cshell$ ");
-
+			_puts("cshell$ \n");
 		shell->chRead = _getline(&(shell->buf), &(shell->size), stdin);
 
+
 		/* INPUT CHECK */
+
 		if (input_check(shell, program_name, size))
 			continue;
 
@@ -97,7 +97,7 @@ void shell_loop(shell_var *shell, size_t size, char *program_name)
 		if (shell->command != NULL)
 		{
 			execute_command(shell, shell->fin, shell->environs);
-			cleanup(shell);
+
 		}
 
 		else
@@ -105,5 +105,6 @@ void shell_loop(shell_var *shell, size_t size, char *program_name)
 			not_found(program_name, (shell->fin)[0], shell->process_id, "not found");
 			(shell->process_id)++;
 		}
+		cleanup(shell);
 	}
 }

@@ -1,28 +1,52 @@
+#include <unistd.h>
+#include <stdlib.h>
 #include "main.h"
+#include <stdio.h>
 
 /**
  * rev_str - Reverse the str of string
- * @str: The pointer input string to be reversed
+ * @str: The input string to be reversed
  *
  * Return: does not return;
  */
-void rev_str(char **str)
+void rev_str(char *str)
 {
-	int len = _strlen(*str), i = 0;
-	char *str1 = malloc(sizeof(char) * len);
-	char *tem = malloc(sizeof(char) * len);
+	int start = 0;
+	int end = 0;
+	char temp;
 
-	str1 = copy_str(str1, *str);
-
-	while (i < len)
+	while (str[end] != '\0')
 	{
-		tem[i] = str1[len - i - 1];
-		i++;
+		end++;
 	}
 
-	*str = copy_str(*str, tem);
-	free(str1);
-	free(tem);
+	end--;
+
+	while (start < end)
+	{
+		switch (str[start])
+		{
+			case '\0':
+				break;
+
+			default:
+				switch (str[end])
+				{
+					case '\0':
+						break;
+
+					default:
+						temp = str[start];
+						str[start] = str[end];
+						str[end] = temp;
+						start++;
+						end--;
+						break;
+				}
+
+				break;
+		}
+	}
 }
 /**
  * concat_str - concatenates the src to dest
@@ -34,6 +58,7 @@ char *concat_str(char **dest, char *src)
 {
 	size_t total_len = _strlen(*dest) + _strlen(src) + 1;
 	char *newArr = malloc(sizeof(char) * total_len);
+
 	size_t i, j = 0;
 
 	for (i = 0; (*dest)[i] != '\0'; i++)
@@ -47,9 +72,9 @@ char *concat_str(char **dest, char *src)
 	}
 
 	newArr[i] = '\0';
+
 	return (newArr);
 }
-
 /**
  * str_to_int - converts str to int status.
  * @str: string to be converted.
@@ -70,11 +95,13 @@ int str_to_int(char *str, int pr_id, char *prog_name)
 			illegal_no(prog_name, pr_id, "illegal number", str);
 			return (-1);
 		}
+
 		status[i] = str[i] - '0';
 		i++;
 	}
 
 	size = i;
 	state = arr_to_int(status, size);
+	free(status);
 	return (state);
 }

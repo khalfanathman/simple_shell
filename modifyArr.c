@@ -1,4 +1,10 @@
 #include "main.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <dirent.h>
+#include <unistd.h>
 /**
  * copy_arr - it copies an array of str from user
  *              stdin
@@ -19,12 +25,13 @@ char **copy_arr(char ***src, int *len)
 
 	argv_copy[*len] = NULL;
 	*src = argv_copy;
+	/* free(argv_copy);  */
 	return (argv_copy);
 }
 /**
  * setArray - it creates array of str from user
  *              stdin
- * @shell: Pointer to the shell structure.
+ * @shell: a struct variables;
  * @buffer: a pointer to the string to be modified
  * @size: size of the array.
  * Return: it returns an array of strings.
@@ -43,12 +50,12 @@ char **setArray(shell_var *shell, char **buffer, size_t size)
 	sh->num_tokens = 0;
 
 	copy = copy_str(copy, *buffer);
-	token = _extract_src(copy, " ");
+	token = strtok(copy, " ");
 
 	while (token != NULL && sh->num_tokens < 10)
 	{
 		tokens[sh->num_tokens++] = token;
-		token = _extract_src(NULL, " ");
+		token = strtok(NULL, " ");
 	}
 
 	for (j = 0; j < sh->num_tokens; j++)
@@ -61,37 +68,38 @@ char **setArray(shell_var *shell, char **buffer, size_t size)
 			finArr[j][len - 1] = '\0';
 		}
 	}
-
+	sh->comStr = copy;
+	/* free(copy); */
 	finArr[sh->num_tokens] = NULL;
+
 	return (finArr);
 }
 /**
  * set_array_cmd - it creates array of str from
  *              enviroment variables.
- * @shell: Pointer to the shell structure.
+ * @shell: a shell command varaibles.
  * @buffer: a pointer to the string to be modified
  * @size: size of the array.
  * Return: it returns an array of strings.
  */
 char **set_array_cmd(shell_var *shell, char **buffer, size_t size)
 {
-	shell_var *sh = shell;
 	char *token = NULL;
 	char *tokens[10];
 	char *copy = NULL;
-
+	shell_var *sh = shell;
 	char **finArr = malloc(sizeof(char *) * size);
 
 	int len, j;
 
 	sh->num_tokens = 0;
 	copy = copy_str(copy, *buffer);
-	token = _extract_src(copy, ":");
+	token = strtok(copy, ":");
 
 	while (token != NULL && sh->num_tokens < 10)
 	{
 		tokens[sh->num_tokens++] = token;
-		token = _extract_src(NULL, ":");
+		token = strtok(NULL, ":");
 	}
 
 	for (j = 0; j < sh->num_tokens; j++)
@@ -106,7 +114,8 @@ char **set_array_cmd(shell_var *shell, char **buffer, size_t size)
 	}
 
 	finArr[sh->num_tokens] = NULL;
-
+	sh->pathStr = copy;
+	sh->finArr = finArr;
 	return (finArr);
 }
 /**
@@ -135,7 +144,6 @@ void array_sort(char *arr[], int size)
 		}
 	}
 }
-
 /**
  * arr_to_int - converts array of ints to single int.
  * @arr: arry to be compressed.

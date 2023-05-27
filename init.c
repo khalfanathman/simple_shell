@@ -16,5 +16,11 @@ void initialize_shell(shell_var *shell, char **envp)
 	shell->command = NULL;
 	shell->process_id = 1;
 	shell->num_tokens = 0;
+	shell->comStr = NULL;
+	shell->pathStr = NULL;
+	shell->copTok = NULL;
+	shell->fpath = NULL;
+	shell->PATH = NULL;
+	shell->getVal = NULL;
 
 }

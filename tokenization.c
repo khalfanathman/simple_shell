@@ -10,38 +10,39 @@
 
 char *_extract_src(char *src, char *delim)
 {
-	char *remaing, *extracted_src;
+	static char *remaing;
+	char *extracted_src;
 	int i = 0;
 
 	if (src != NULL)
 	{
 		remaing = src;
 	}
-
 	if (remaing == NULL || *remaing == '\0')
 	{
 		return (NULL);
 	}
-
 	extracted_src = malloc(_strlen(remaing) + 1);
 
 	if (extracted_src == NULL)
 	{
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	while (*remaing != '\0')
 	{
 		if (_strchr(delim, *remaing) == NULL)
 		{
-			extracted_src[i++] = *remaing++;
+			extracted_src[i] = *remaing;
+			i++;
+			remaing++;
 		}
 
 		else
 		{
 			extracted_src[i] = '\0';
 			remaing++;
-			src = remaing;
+			/* src = remaing; */
 			return (extracted_src);
 		}
 	}

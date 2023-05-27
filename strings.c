@@ -1,4 +1,7 @@
+#include <unistd.h>
+#include <stdlib.h>
 #include "main.h"
+#include <stdio.h>
 
 
 /**
@@ -14,6 +17,7 @@ char *copy_str(char *dest, char *src)
 	int i, len = _strlen(src);
 
 	dest = malloc((len + 1) * sizeof(char));
+
 	for (i = 0; i < len; i++)
 	{
 		dest[i] = src[i];
@@ -76,28 +80,23 @@ int compare_str(char *str1, char *str2)
 
 	return (0);
 }
-
 /**
- * _strchr - Locate first occurrence of a character in a string.
- * @line: The string to search within.
- * @letter: The character to locate.
+ * _strlen - Calculate the length of a null-terminated string
+ * @line: The input string
  *
- * Return: Pointer to the first occurrence of the char 'c' in the string 'str',
- *         or NULL if the character is not found.
+ * Return: The length of the string (excluding the null terminator)
  */
-char *_strchr(char *line, int letter)
+size_t _strlen(char *line)
 {
-	while (*line != '\0')
-	{
-		if (*line++ == letter)
-		{
-			return (line);
-		}
-		/* *line++; */
-	}
-	return (NULL);
-}
+	size_t length = 0;
 
+	while (line[length] != '\0')
+	{
+		length++;
+	}
+
+	return (length);
+}
 /**
  * _puts - prints strings to stdoute.
  * @str: The string to be printed.

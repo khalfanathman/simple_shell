@@ -1,17 +1,6 @@
 #include "main.h"
 
 /**
- * sigint_handler - Handles the SIGINT signal.
- * @sig: The signal number.
- */
-void sigint_handler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		_exit(0);
-	}
-}
-/**
  * cleanup - clean up the varable used before next iteration.
  * @shell: Pointer to the shell structure to be cleaned.
  */
@@ -20,17 +9,26 @@ void cleanup(shell_var *shell)
 	shell_var *sh = shell;
 
 	free(sh->buf);
-	free(sh->fin);
+	free(sh->command);
 	free(sh->finArr);
-	sh->chRead = 0;
-	shell->num_tokens = 0;
-	sh->command = NULL;
-	sh->num_tokens = 0;
-	sh->size = 0;
 	sh->finArr = NULL;
 	sh->buf = NULL;
 	sh->fin = NULL;
-	fflush(stdin);
+	sh->comStr = NULL;
+	sh->fpath = NULL;
+	sh->copTok = NULL;
+	sh->pathStr = NULL;
+	free(sh->fpath);
+	free(sh->comStr);
+	free(sh->pathStr);
+	sh->num_tokens = 0;
+	sh->size = 0;
+	free(sh->getVal);
+	sh->chRead = 0;
+	sh->num_tokens = 0;
+	sh->command = NULL;
+	free(sh->PATH);
+	free(sh->fin);
 }
 /**
  * power - calculate power of a number.
@@ -57,7 +55,7 @@ int power(int base, int exponent)
 void exiting(shell_var *shell, char *prog_name)
 {
 	int status = 0;
-	char *str;
+	char *str = NULL;
 	shell_var *sh = shell;
 
 	str = sh->fin[1];
@@ -67,16 +65,23 @@ void exiting(shell_var *shell, char *prog_name)
 		status = str_to_int(str, sh->process_id, prog_name);
 
 		if (status >= 0)
+		{
+			cleanup(sh);
 			exit(status);
-
+		}
 		else
 		{
+			cleanup(sh);
 			return;
 		}
 	}
 
 	else
 	{
+		free(sh->fin);
+		free(sh->buf);
+		free(sh->comStr);
+		/* cleanup(shell); */
 		exit(status);
 	}
 }

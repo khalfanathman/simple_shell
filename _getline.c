@@ -1,4 +1,5 @@
 #include "main.h"
+#include <sys/stat.h>
 
 /**
  * reading - performs reading character by character.

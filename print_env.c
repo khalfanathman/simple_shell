@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include "main.h"
 /**
  * print_env - Prints the elements of an environment variable array.
