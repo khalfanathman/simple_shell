@@ -17,10 +17,12 @@ char *_strcpy(char *path)
 	while (path[i] != '\0')
 		i++;
 
-/*	newPath = malloc(i + 1);
+/*
+ *	newPath = malloc(i + 1);
 
 	if (newPath == NULL)
-		free(newPath);*/
+		free(newPath);
+*/
 
 	for (j = 0; j <= i; j++)
 		newPath[j] = path[j];

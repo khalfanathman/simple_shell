@@ -22,10 +22,12 @@ char *_strconcat(char *str1, char *str2)
 	str1 -= (x + 1);
 	str2 -= (y + 1);
 
-/*	p = malloc(x + y + 1);
+/*
+ *	p = malloc(x + y + 1);
 
 	if (p != NULL)
-	{*/
+	{
+*/
 		for (i = 0; i < x; i++)
 		{
 			p[i] = str1[i];
